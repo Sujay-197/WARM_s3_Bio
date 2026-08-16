@@ -14,36 +14,29 @@ steps are explained inline in code/notebooks, not assumed knowledge.
 
 ## Dataset
 
-**Original source (paper):**
-- Source: HCVpro (Kwofie et al. 2011) — manually curated, aggregating literature +
-  VirusMint + VirHostNet + BIND.
-- Format: tab-separated text (TSV); the original export also carried GO/pathway/OMIM
-  annotation columns alongside the interactions themselves.
-- Raw: 11 HCV proteins, 455 human proteins, 549 interactions.
-- After dedup: 524 interactions, 466 total nodes → very sparse bipartite graph.
-- Annotation layer: GO molecular function terms per protein, used only for rule
-  *weighting* (Section 2.3.2/Appendix B) — not treated as raw mining features.
+- Source: **VirHostNet-v3.0321** (NDEx network UUID `9dd36e92-994e-11eb-9e72-0ac135e8bacf`),
+  substituted for the paper's original HCVpro source — both HCVpro mirrors
+  (`apps.sanbi.ac.za`, `cbrc.kaust.edu.sa`) are down as of 2026-08-16 (DNS failure /
+  repeated HTTP 503-504), and no Wayback Machine crawl ever captured the dynamic
+  download endpoint, only the static UI shell. VirHostNet is itself one of HCVpro's
+  original source databases and is still actively maintained.
+- Filtered to the two genuine HCV reference strains present (Con1, JFH-1); each strain's
+  polyprotein cleavage sites mapped to 10 named proteins (CORE, E1, E2, p7, NS2, NS3,
+  NS4A, NS4B, NS5A, NS5B) via UniProt Chain features. Interactions attributed only to the
+  uncleaved polyprotein (no cleavage-site detail) were dropped.
+- Format: plain 2-column CSV (`human_protein,viral_protein`), at
+  `data/raw/virhostnet_hcv_human_interactions.csv`. GO annotations are fetched
+  separately per protein via the UniProt REST API
+  (`https://rest.uniprot.org/uniprotkb/{id}`, cached to disk) rather than relied on as
+  pre-packaged columns.
+- **Stats: 10 HCV proteins, 527 human proteins, 591 interactions**, no duplicates.
 
-**Actual source used (this implementation):** both HCVpro mirrors
-(`apps.sanbi.ac.za`, `cbrc.kaust.edu.sa`) are down as of 2026-08-16 — confirmed via DNS
-failure and repeated HTTP 503/504s — and no Wayback Machine crawl ever captured the
-dynamic download endpoint, only the static UI shell. Substituted with
-**VirHostNet-v3.0321** (the current live descendant of one of HCVpro's own source
-databases), pulled from its NDEx export (network UUID
-`9dd36e92-994e-11eb-9e72-0ac135e8bacf`) and filtered to the two genuine HCV reference
-strains present (Con1, JFH-1), with each strain's polyprotein cleavage sites mapped to
-the paper's 10 named proteins via UniProt Chain features. Saved as a plain 2-column CSV
-(`human_protein,viral_protein`) at `data/raw/virhostnet_hcv_human_interactions.csv` —
-simpler than the original TSV's embedded annotation columns, since GO annotations are
-fetched separately per protein via the UniProt REST API
-(`https://rest.uniprot.org/uniprotkb/{id}`, cached to disk) rather than relied on as
-pre-packaged columns.
-
-| | Paper (HCVpro, 2018) | This implementation (VirHostNet, 2026) |
-|---|---|---|
-| Interactions | 524 | 591 |
-| Human proteins | 455 | 527 |
-| Viral proteins | 11 | 10 (no F protein — a ribosomal-frameshift product, not a UniProt Chain feature) |
+For reference, the paper's original HCVpro dataset (TSV, with embedded GO/pathway/OMIM
+annotation columns) had 11 HCV proteins, 455 human proteins, 549 raw interactions → 524
+after dedup, 466 total nodes. Our numbers differ because VirHostNet's curation has moved
+on since 2018 and we pool two strains; the paper's 11th protein (F, a
+ribosomal-frameshift product) isn't captured since it's not annotated as a UniProt Chain
+feature.
 
 ## Method (from the paper)
 
