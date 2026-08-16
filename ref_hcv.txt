@@ -1,0 +1,822 @@
+Send Orders for Reprints to reprints@benthamscience.ae                                                                                                                                            73
+                           RESEARCH ARTICLE
+                                                           Current Bioinformatics, 2018, 13, 73-84
+
+                                                                                                                                                                                 ISSN: 1574-8936
+                                                                                                                                                                                eISSN: 2212-392X
+
+                        A Weighted Association Rule Mining Method for Predicting HCV-Human                                                                                                        Impact
+                        Protein Interactions                                                                                                                                                      Factor:
+
+                                                                                                                                                                                                     0.6
+
+                                                                                                                                                                                                  BENTHAM
+                                                                                                                                                                                                  SCIENCE
+
+                        Murugan Indhumathy1, Ahmed R. Nabhan2,3 and Subramanian Arumugam1,*
+
+                        1National Centre for Advanced Research in Discrete Mathematics, Kalasalingam University, Anand Nagar,
+                        Krishnankoil-626126, Tamil Nadu, India; 2Faculty of Computers and Information, Fayoum University, Faiyum, Egypt;
+                        and 3Member Technology - Sears Holdings Corporation, Hoffman Estates, Illinois 60179, USA
+
+                        A R T I C L E H I S T O R Y        Abstract: Background: Hepatitis C Virus causes the most severe form of chronic liver disease and
+                                                           nearly 200 million people worldwide are estimated to be infected with this virus. Much about the HCV
+                        Received: July 16, 2016            pathogenesis process is still unknown. The study of interactions between HCV and human proteins will
+                        Revised: October 04, 2016          lead to deeper understanding of HCV mechanism.
+                        Accepted: November 09, 2016
+                                                           Objective: The objective of this paper is to predict potentially new HCV-Human protein interactions
+                        DOI:                               using a weighted association rule mining technique.
+                        10.2174/1574893611666161123142425
+                                                           Methods: A new computational method was developed for mining associations within a bipartite graph
+Current Bioinformatics                                     that was constructed from the HCV-human protein interactions dataset. A new mathematical model was
+                                                           applied to weigh the discovered association rules based on Gene Ontology annotations of viral and
+                                                           human proteins. HCVpro database was used to generate a human-viral bipartite graph that was then
+                                                           analyzed computationally to extract biclusters within the graph. Association rules were extracted from
+                                                           the bipartite graph and weighted using a mathematical model that incorporated information about
+                                                           proteins available from Gene Ontology knowledge base.
+
+                                                           Results: Forty two new interactions between HCV and human proteins were predicted. Some of these
+                                                           predicted interactions were validated through literature survey and enrichment studies such as Gene
+                                                           ontology-based analysis, pathway- based analysis and disease association based analysis.
+
+                                                           Conclusion: The methodology developed in this paper can also be used for various other kind of data
+                                                           analysis and hence it carries a wide scope. This will be useful to conduct similar kind of experiments for
+                                                           other disease databases.
+
+                        Keywords: Weighted association rule mining, gene ontology, HCV-human PPI network, bi-clustering, computational PPI
+                        prediction, enrichment studies.
+
+                        1. INTRODUCTION                                                                        above structured and non-structured proteins, two more
+                                                                                                               proteins p7 and F have been identified in this genome [2].
+                            Chronic liver disease is a major health problem in many                            These proteins are not only involved in viral replication but
+                        regions. Hepatitis C virus is one of the causative agents of                           also have a role in cellular functions which means that
+                        liver diseases. Approximately, 200 million people are                                  during replication of HCV life cycle, it interferes with the
+                        chronically infected with HCV and over 0.3 to 0.5 million                              cellular pathways of the host cell and alters the functions of
+                        deaths occur every year due to HCV and its related                                     host proteins. These changes are oftenmediated by physical
+                        complications [1]. It is primarily transmitted through blood-                          interactions between viral proteins and host proteins.
+                        blood contact. HCV is an RNA genome containing a single
+                        open reading frame which encodes for 3000 amino acids as a                                 It is unknown how HCV proteins elicit these changes in
+                        polyprotein. This precursor polyprotein is cleaved into                                the host cell [3]. To address this question, it is essential to
+                        eleven viral proteins. At N-terminus, three structural                                 study protein interactions between HCV and human proteins.
+                        proteins, namely, CORE, E1 and E2 are present. At C-                                   Protein-protein interaction (PPI) data can be collected
+                        terminus, six nonstructural proteins NS2, NS3, NS4A,                                   through in vitro biological experiments such as Yeast two-
+                        NS4B, NS5A, and NS5B are present. In addition to the                                   hybrid systems, mass spectrometry and tandem affinity
+                                                                                                               precipitation. These methods have their own limitations with
+                        *Address correspondence to this author at the National Centre for Advanced             respect to cost and time. Additionally, the obtained results
+                        Research in Discrete Mathematics, Kalasalingam University, Anand Nagar,                can be noisy and introduce false positives as well as false
+                        Krishnankoil-626126, Tamil Nadu, India; Tel: 098940 27224;                             negatives [4]. In silico approaches can be a more cost-
+                        E-mail: s.arumugam.klu@gmail.com                                                       effective alternative and can be widely used to predict new
+
+                                                                                      2212-392X/18 $58.00+.00  © 2018 Bentham Science Publishers
+74 Current Bioinformatics, 2018, Vol. 13, No. 1                                                 Indhumathy et al.
+
+protein-protein interactions [5]. Recent computational                              HCVPro
+studies of PPI data primarily focused on single organism                            database
+such as yeast and humans, while the prediction of PPls
+between different organisms has recently emerged [6].                                  Data
+                                                                                   Preparation
+    Of particular interest, a recent method of graph bi-                           HV matrices
+clustering combined with association rule mining (ARM)                             VH matrices
+was proposed to address the problem of predicting new
+protein-protein interactions within a variety of organisms [7,                        Bi Max
+8]. The method encoded the learned information in the form                          Algorithm
+of association rules. These rules were shown to predict new
+protein-protein interactions and indirect functional prediction                    Biclusters
+of the proteins. The method showed that it can be potentially
+useful to help in the identification of drug target [9].            Gene Ontology    WARL
+                                                                      Consortium   Algorithm
+    In this paper, HCV-human PPI data was analyzed using a
+graph bi-clustering algorithm combined with a new association                                                                                Set of
+rules mining (ARM) method. A mathematical model was used                                                                                 Association
+to weigh the rules based on Gene Ontology (GO) annotations.
+The proposed method has two main advantages over state-of-                                                                                    rules
+the-art methods. First, the method allows for utilization of prior
+knowledge-based annotations of proteins, and therefore, more        Fig. (1). Pictorial representation of the proposed method.
+informed predictions can be made when applying the
+association rules. Second, the method helps gaining insight into    2.1. Data and Knowledge Resources
+shared characteristics of proteins (in terms of their GO
+annotations) when the prediction rules are applied. New                 In this study, a new association rules for predicting new
+predicted HCV-human protein interactions were predicted             viral-human protein interactions were created using HCVpro
+based on the discovered association rules and some predicted        data. HCVPro [10] is a manually curated database created
+interactions were validated through a literature survey. Further    from biomedical literature and protein databases including
+enrichment studies such as Gene ontology-based analysis,            Virus Mint, VirHostNet and BIND. It contains 11 HCV
+pathway-based analysis and disease association based analysis       proteins, 455 human proteins and 549 interactions between
+have been performed for validation purpose. This analysis           HCV proteins and human proteins. After removing
+reveals that human proteins interacting with the HCV proteins       redundant interactions, 524 interactions were studied. A
+in the predicted network possess similar biological activities.     bipartite graph was created using these interactions. The
+Thus the proposed weighted association rule mining has the          graph had two types of nodes: HCV viral proteins and
+potential to be adapted to incorporate multi-faceted knowledge      human proteins. An edge between two protein nodes
+sources and to be generally applicable to association rules         represents an interaction. In this bipartite graph, no edges
+problems, such as drug-protein interactions.                        were allowed between nodes of the same type. Edges did not
+                                                                    have weights. Since the total number of nodes in this
+2. MATERIALS AND METHODS                                            bipartite graph is 466 and the number of edges is 524, the
+                                                                    data set is very sparse.
+    In this section, we describe data collection and
+preprocessing method together with a computational method               The HCVpro data was processed in two ways. Two
+to mine association rules in sparse datasets such as HCVPro.        binary incidence matrices were created from HCVpro
+The data preprocessing steps aimed to construct an MuN              database namely HV incidence matrix with rows
+matrix representation of a bipartite graph that has only two        representing human proteins and columns representing viral
+types of nodes: human protein nodes and viral protein nodes.        proteins and the VH matrix which is the transpose of HV
+In the MuN matrix, rows represented human proteins and              matrix. Matrix entries had values 1 or 0 indicating whether
+columns represented HCV proteins. Then, this matrix and its         the corresponding entries were interacting. This pair of
+transpose were used by an algorithm called BiMax to extract         matrices was analyzed using BiMax algorithm to extract
+biclusters within the matrices.                                     biclusters (sub-matrices). These biclusters represented high
+                                                                    frequent associations in the given dataset. A new probability-
+    These biclusters were analyzed by a new probabilistic-          based method was used to generate association rules based
+based association rule mining algorithm to uncover                  on the biclusters and Gene Ontology (GO) annotations of
+potentially new associations in the data. The method                both human and viral proteins. The generated association
+incorporated information about proteins from Gene Ontology          rules were then combined to predict potentially new viral-
+knowledge base to improve scoring (weighting) of the                human protein interactions.
+discoveredassociation rules to overcome data sparseness
+problem with HCVPro database. Information about proteins                Due to data sparseness, knowledge-based annotations
+from Gene Ontology helped improving scores ofthe                    from Gene Ontology database were used to augment the
+extractedassociationrules that would have been overlooked
+(low-scored) if the data were analyzed in its raw form
+(without external knowledge from Gene Ontology). Fig. 1
+represents an overview of the proposed method.
+A Weighted Association Rule Mining Method for Predicting HCV-Human Protein Interactions  Current Bioinformatics, 2018, Vol. 13, No. 1 75
+
+biclusters of human-viral proteins in a way that enabled            allowed for mining of frequent item sets using popular item
+inferring more rules. In its present form, the current dataset      set mining algorithms. In the present study, the proposed
+does not provide enough support and confidence values for           method had two main steps. The first step was the extraction
+association rule mining algorithm. The idea was to modify           of closed item sets within binary matrix representations of
+the scoring of biclusters to rely more on frequency of              the bipartite graphs. A closed itemset is a set where none of
+molecular function annotation and less on cluster size. This        its proper supersets share its support value [17]. Closed
+way, the score of a small bicluster that contains some              itemsets were utilized in generating association rules with
+frequent molecular function annotations among its proteins          high confidence and low redundancy [18]. In the second
+would get more weight and thus would be used effectively to         step, association rules were weighed using a mathematical
+generate association rules.                                         model that allows for incorporation of annotations from a
+                                                                    knowledge base. This knowledge base provided prior
+    In this study, in addition to data resources, a knowledge       information about transactions when the rules are applied.
+base resource was used to increase the generalization capability    These prior information enhance the decision making
+of the method to predict new viral-human protein interactions.      process of predicting future associations instead of relying
+Annotations from Gene Ontology (GO) consortium [11] were            only on the item set frequencies. Thus, the proposed method
+assigned to proteins in HCVpro dataset. Gene Ontology is            is a two dimension model that considers vertical information
+broadly classified into three components: Molecular function,       about items and horizontal information about transactions.
+Biological process and Cellular component. Molecular function
+describes the biochemical reaction in which a protein is            2.3.1. Step 1: Mining of Association Rules Using Graph
+involved in, whereas biological process describes the biological    Biclustering
+role that a protein plays and cellularcomponent tells about the
+location of a protein in the cell. In this study, only molecular        In the first step, a biclustering algorithm, BiMax,
+function annotations were assigned to the proteins in HCVPro.       identifies biclusters (within a binary matrix) that satisfy
+                                                                    specific criterion such as only finding biclusters with
+2.2. Association Rule Mining                                        minimum number of rows [19]. This minimum number of
+                                                                    rows serves as a value of the support parameter in
+    Association rule mining (ARM) is a data mining method           association rule generation method. Another important
+that extracts descriptive rules in databases [12]. It is typically  feature of BiMax is that it generates closed itemsets, which
+employed to uncover hidden patterns or regularities among           are more efficient to extract within dense matrices. Given a
+items co-occurring in database records (transactions). ARM          set of Biclusters, association rules can be generated from
+can be useful in highlighting some interesting correlations in      each bicluster as follows. Let S denote the column items of a
+large volumes of transactions. This method can be divided           bicluster with | S | n.
+into two steps. The first step is generating frequent itemsets:
+finding all sets of items that appear in transactions with          R {A  C : i  S, S {i},C {i}}  (1)
+frequency greater than a parameter value called minimum
+support. In the second step, rules are constructed from                 For each item i in S, the consequent part of the rule is
+frequent itemsets. While itemsets need to satisfy the               C={i}, and antecedent set (A) consists of the remaining
+minimum support requirement, a numeric value called                 elements of S leaving item i out. While closed itemsets are
+confidence score is generated for each rule. More details on        useful in reducing data redundancy, they pose a challenge
+association rule mining concepts are given in appendix A.           in the context of mining association rules within bipartite
+                                                                    graphs. In some sparse bipartite graphs with very skew
+    In bioinformatics research, ARM has been applied in             distribution of vertex degree, the extracted closed itemsets
+research areas including analysis of gene expression data to        were observed to have both high cardinality because of too
+relate the expression of one gene associated with the               few vertices with high degree and low support score of the
+expression of other genes [13] and discovering of the               rules being generated from such sets.The skew distribution
+underlying relationships among symptoms, health conditions          of vertex degree is expected, given that HCV dataset has
+and diseases [14]. To improve the efficiency of ARM,                fewer viral proteins and many human proteins.
+weighted ARM models have been developed [15]. In this
+study, we analyzed HCVPro data using a weighted                         To overcome skew degree distributions problem, a post
+association rule mining method.                                     processing method is proposed to systematically expand
+                                                                    sparse closed itemsets extracted using BiMax to smaller,
+2.3. A Two-Step Weighted Association Rule Mining                    more frequent subsets (and hence having higher support
+Algorithm                                                           values) from which rules can be generated. For each member
+                                                                    of the smaller subsets, an association rule is created using the
+    In this section, a new method for weighted association          same steps above in Equation (1). Only subsets of closed
+rule mining (WARL) is presented. The method relied on               itemsets that have frequency higher than the superset are
+adjacency matrix representation of bipartite graphs where           considered for further analysis and rule generation. For
+standard frequent item set algorithms were applied. The             instance, if ScS, then Scis considered for further rule
+problem setting was similar to the work in [16], where              generation only if | Sc| < |S|. Subsets were obtained by
+bipartite graphs of host-viral protein-protein interactions         generating permutations of the items in the closed item sets.
+were represented using notions of transactions and items. For       We limited subsets to four elements of size. These subsets, in
+instance, a transaction might be a host protein and items that      addition to the closed superset of items were used to generate
+were observed within the transactions are those viral proteins      association rules in the same way as per Equation (1).
+interacting with this host protein. This problem setting
+76 Current Bioinformatics, 2018, Vol. 13, No. 1                                                                                                   Indhumathy et al.
+
+2.3.2. Step 2: Weighing of Association Rules Using Gene                     2.4. Experimental Evaluation
+Ontology (Molecular Function)
+                                                                                The WARL method was applied to the problem of mining
+    One way to apply an association rule of the form AC is to               association rules from bipartite graphs of heterogeneous
+predict that a transaction T containing items of antecedent set A           protein-protein interactions. In this model, C and T are
+will also contain items in the consequent set C. This decision              viral/host proteins and P(C,T|A) can be used to predict whether
+process is based on the confidence score of the rule. Within that           a protein C can be interacting with protein T. In the bipartite
+setting, no prior information about the transactions are used in            graph representing host-viral protein-protein interactions, two
+such predictions. However, there might be some relevant meta                types of nodes exist: a human protein type and a viral protein
+data about a given transaction that can be useful to boost the              type. Links between nodes indicate interactions between pairs
+confidence score by utilizing prior information. For instance, in           of proteins. No links are allowed between same type proteins.
+e-commerce contexts, gender, age, marital status, and other                 In this study, bipartite graphs were represented by binary
+information might be associated with the agent (e.g. customer)              matrices where rows indicate one protein type and columns
+performing the transaction. This meta data/information can be               represent the other protein type. We have two matrices HV
+incorporated into a mathematical model that is proposed here.               matrix where rows indicate human proteins and columns
+The idea is based on the assumption that there is a hidden                  indicate viral proteins. The transpose of this matrix is VH
+dependency of an item set on meta data of transactions. This                matrix. In a previous study [16], mining association rules
+statistical dependency can be quantified as a probability model             within two matrices representing the same bipartite graph was
+that can contribute to the overall confidence score of an                   found to be beneficial as it was observed that there were few
+association rule. This model will contextualize rules when                  overlapping between the rule set extracted using each matrix,
+applied, instead of statically applying the rule without knowing            and it was thus possible to combine rules from the two
+the context.                                                                matrices. In this study, we followed the same method of using
+                                                                            two matrices. Starting with HV and VH matrices, two sets of
+    Let P(C, T | A) represent the probability of observing an               association rules were created by first applying BiMax
+item set C together with a transaction T, given that another                algorithm to create Closed Item sets, and then weighed by a
+set of items A is observed. Using Bayes' rule and based on                  mathematical model based on a probability estimated from
+the assumption that C and T are conditionally independent on                gene ontology annotations as meta data of transactions
+A, this probability can be factored as follows                              (proteins) in the data set.
+
+P(C,T | A) v P(C | A) P(T | A)                   (2)                            In this study, Gene Ontology annotations were used as
+                                                                            feature set of a transaction M(T). Hence, M(T)=go1, go2. gon
+    The probability value P(C|A) can be obtained readily from               represented the Gene Ontology (GO) annotations that are
+the confidence score of an association rule of the form AC as               observed with a transaction representing a protein. The
+described in step one of the method. In other words, P(C|A) =               probability model P(M(T)|A) was expressed as a function of
+Conf(A=>C) (see appendix A for details on calculating support               the probability P(go|A) and this model is described below:
+and confidence scores of association rules). The value P(T|A) is
+the probability of observing a transaction T given a set of items           2.4.1. Estimating P(go|A) Model
+A. The probability P(T|A) does not represent a meaningful
+quantity by itself if T is just a transaction identifier. A more                In HV and VH matrices, proteins that represented
+interesting probability model would be one that represents how              transactions were annotated by molecular function
+much the meta data of a transaction T depends on an item set A.             annotation from Gene Ontology knowledge base. For each
+Let M(T) be a function that retrieves (or synthesizes) meta data            antecedent set A in an association rule, molecular function
+about a transaction T.                                                      annotations of transaction's proteins were used to build a
+                                                                            probability model P(go|A). Also, for the set of transactions
+M (T ) t1 ,t2 , tn                               (3)                        supporting antecedent set A, the maximum number of
+                                                                            observed annotations is stored in a separate table. This
+    In this paper, the set of features used are Gene Ontology               number would be used then in calculating the penalty factor
+(GO) molecular function annotations associated with a                       when the model was applied to test transactions that have too
+protein representing the transaction for which a prediction is              few of GO annotations associated with A.
+to be made. Specifically,
+                                                                                Estimation of P(go|A) was done as follows. For each rule
+P(C,T | A) v P(C | A) P(T | A)                                              AC, GO labels of rows consisting of proteins that appeared
+                                                                       (4)  both with antecedent set A and consequent set C were used to
+                                                                            estimate probability model P(go|A). Transactions that appeared
+  P(C | A) P(go1 , go2 , gon | A)                                           with set A and not with set C were treated as test or candidate
+                                                                            (predicted) proteins that may interact with proteins in the set C.
+    Where go1, go2, .gon are molecular functions of protein T.              The later transactions are evaluated using P(go|A) model
+                                                                            according to Equation (B6) given in appendix B.
+    Thus, the GO annotations allow for defining a context in
+which the rule is applied to predict whether proteins C and T               2.4.2. Evaluating Association Rules Using Estimated
+are interacting. If a protein representing a transaction T is               P(go|A) Model
+shown to share more molecular functions with the group of
+transactions (protein) that supports the rule, then the                         Each rule in the final set is evaluated as follows. The
+likelihood of applying the rule would increase from a model                 probability value P(C,M(T)|A) is calculated for transactions
+standpoint. More details about the proposed model and the
+knowledge sources used are described in appendix B.
+A Weighted Association Rule Mining Method for Predicting HCV-Human Protein Interactions  Current Bioinformatics, 2018, Vol. 13, No. 1 77
+
+that are covered by both sets A and C (training set), and for   455 human proteins, 15 of them are found to interact with
+transactions that cover A and does not cover C (predicted       the above 9 HCV proteins. To the above 15 Human proteins,
+set). Predictions with P(C,M(T)|A) score higher than average    NS3 interacts with 8 of them which shows that NS3 has a
+value of P(C,M(T)|A) of training transactions were              higher degree in the HV matrix. Thus the new predictions
+considered for further evaluation through published evidence    involve 15 Human proteins and 9 HCV proteins. Similarly,
+and enrichment studies based on Gene Ontology, pathway          out of the 88 predictions in the VH matrix, 46 of them
+and disease association.                                        exceed the threshold value. Consequent part of the above 46
+                                                                rules involve 24 Human proteins which interacts with seven
+2.5. Enrichment Analysis of the Predicted Interactions          HCV proteins. Table 2 shows the final set of 46 predictions
+                                                                based on VH matrix.
+    To investigate the biological characteristics of the human
+proteins that interact with the viral proteins, enrichment      Table 1. Final set of 30 association rules among HCV
+analysis methods such as Gene ontology (using Biological                      proteins predicted from HV matrix.
+process and cellular component terms), pathway enrichment
+analysis (using KEGG database) and disease association          Human-Viral Predicted Pairs  Applied Association Rule
+analysis (using OMIM database) were performed. For this                    CD209,NS2                {E1}=>{NS2}
+purpose, web based tools like DAVIDv6.7 [20, 21] and                      CEP250,NS3
+REVIGO [22] were used. DAVIDv6.7 (The Database for                                            {NS5A,NS5B}=>{NS3}
+Annotation, Visualization and Integrated Discovery) is a                CLEC4M,CORE              {E1,E2}=>{CORE}
+resource that provides functional annotation tool for                    CLEC4M,NS2               {E1,E2}=>{NS2}
+investigating the biological meaning behind a large set of               CLEC4M,NS5B             {E1,E2}=>{NS5B}
+genes. It takes as input a list of genes. REVIGO is a web                  CREB3,NS3            {CORE,p7}=>{NS3}
+server tool that can be used to remove the redundant GO                   CREB3,NS5B
+terms based on a semantic similarity algorithm. It takes as               DDX3X,NS3            {NS4A,p7}=>{NS5B}
+input a list of GO terms with P-values and displays the                  DDX3X,NS5B               {CORE}=>{NS3}
+output with dispensability. Enrichment threshold value of                                        {CORE}=>{NS5B}
+certain p value and gene count > 2 was set to identify the                  DDX5,E2
+most important GO terms and pathway terms in the study.                    DDX5,NS2            {CORE,NS5B}=>{E2}
+The results of these experiments are reported in results                  DDX5,NS4A           {CORE,NS5B}=>{NS2}
+section.                                                                  EIF2AK2,E1         {CORE,NS5B}=>{NS4A}
+                                                                         EIF2AK2,NS2
+3. RESULTS                                                               EIF2AK2,NS3             {CORE,E2}=>{E1}
+                                                                        EIF2AK2,NS4A            {CORE,E2}=>{NS2}
+    In this section, we have discussed about the results                 EIF2AK2,NS5B        {CORE,NS5A}=>{NS3}
+obtained using WARL method.WARL was applied to HV                        FMNL1,CORE           {CORE,E2}=>{NS4A}
+matrix and its transpose, VH matrix, to generate a set of                 FMNL1,NS3            {CORE,E2}=>{NS5B}
+association rules for predicting new potential interactions.             FMNL1,NS4A
+An association rule was applied to a candidate input protein              FTH1,CORE                {p7}=>{CORE}
+whenever the items of antecedent set of the rules have non-                FTH1,NS5B                {p7}=>{NS3}
+zero entries in the incidence matrix. If a protein record                 HOXD8,NS3                {p7}=>{NS4A}
+matches the antecedent set, the proteins in the consequent set              HOXD8,p7         {NS3,NS5A}=>{CORE}
+of the rules were predicted to interact with the candidate                 NR4A1,NS3          {NS3,NS5A}=>{NS5B}
+protein. After that, the mathematical model for rule weighing               NR4A1,p7               {NS2}=>{NS3}
+was applied to confirm whether a prediction should be                     PTBP2,NS5A           {NS4A,NS5B}=>{p7}
+rejected. Initially, there were 847 candidate predictions                  SETD2,NS3                {E1}=>{NS3}
+within the HV matrix and 88 candidate predictions in VH                   SLIT2,CORE           {CORE,NS4A}=>{p7}
+matrix. Only candidate predictions above an empirical                    TRIM27,CORE          {NS3,NS5B}=>{NS5A}
+threshold value were not rejected. Several values were tried                                   {CORE,NS2}=>{NS3}
+and those resulting in too many or too few non-rejected                                         {NS3,p7}=>{CORE}
+predictions were not used. A threshold value of 1E-14 was                                      {NS2,NS3}=>{CORE}
+finally used to filter out predictions.
+
+3.1. Results on HV and VH Matrix
+
+    After screening off predictions based on the threshold
+value, the resulting predictions were reduced from 847 to 30
+from the HV matrix. Table 1 shows the final set of 30
+predictions based on HV matrix. From the table it is clearly
+seen that only 9 HCV proteins are in the consequent part of
+the rules. Hence according to the 30 predicted rules, out of
+78 Current Bioinformatics, 2018, Vol. 13, No. 1                                                                               Indhumathy et al.
+
+Table 2. Final set of 46 association rules among Human  3.2. Bipartite Graph of the Predicted Interactions
+              proteins predicted from VH matrix.
+                                                            Out of the 30 predicted interactions in HV matrix and 46
+ Viral-Human              Association Rule              predicted interactions in VH matrix, 12 interactions were
+Predicted Pairs                                         common in both matrices. Further, 22 interactions were
+                       {NR4A1}=>{CREB3}                 repeated with different antecedent sets. Eliminating these
+   E1,CREB3             {SETD2}=>{CALR}                 common and repeated interactions, the number of final
+   NS2,CALR        {NR4A1,SETD2}=>{CANX}                predicted interactions was reduced to 42. These 42
+  NS2,CANX       {HOXD8,NR4A1}=>{EIF2AK2}               interactions involved 30 Human proteins and 9 HCV
+ NS2,EIF2AK2          {SETD2}=>{EIF2AK2}                proteins
+ NS2,EIF2AK2            {SETD2}=>{HSPA5}
+  NS2,HSPA5            {PSMB9}=>{CEP250}                    Fig. 2 represents the predicted bipartite network
+ NS3,CEP250            {FBLN2}=>{CREB3}                 involving 30 human proteins and 9 HCV proteins. The figure
+  NS3,CREB3            {TP53}=>{EIF2AK2}                illustrates that there are predominantlytwo viral hub proteins
+ NS3,EIF2AK2           {PSMB9}=>{FBXL2}                 NS3 and NS5B which interact with 13 and 8 Human proteins
+  NS3,FBXL2            {FBLN5}=>{HOXD8}                 respectively. The other HCV proteins of the network are
+ NS3,HOXD8                                              NS2, CORE, NS5A, E1, NS4A, E2 and p7 and their degrees
+   NS3,JAK1               {TP53}=>{JAK1}                are respectively 6, 5, 4, 2, 2, 1 and 1.
+NS3,MOBK1B            {PSMB9}=>{MOBK1B}
+  NS3,NR4A1                                             3.3. Support Evidence of Predicted Host-Protein
+  NS3,SETD2            {FBLN5}=>{NR4A1}                 Interactions
+NS3,SHARPIN             {FBLN5}=>{SETD2}
+  NS3,STAT1          {PSMB9}=>{SHARPIN}                     To verify the newly predicted interactions, we searched
+    NS3,TBP              {TP53}=>{STAT1}                PubMed database for recent reports on protein interactions
+ NS3,TP53BP2                                            between HCV proteins and human proteins which are not
+ NS3,TRADD                 {TP53}=>{TBP}                included in the HCVpro database. In HCVpro, DDX3X
+  NS3,TRAF2             {TP53}=>{TP53BP2}               interacts with the CORE proteins of HCV, whereas the
+  NS3,VAPA              {TP53}=>{TRADD}                 WARL method predicted that DDX3X may be interacting
+   NS3,VAPB              {TP53}=>{TRAF2}                with NS3 and NS5B. In [23], it has been demonstrated by
+NS4A,EIF2AK2            {PSMB9}=>{VAPA}                 Immunofluorescence and co-immunoprecipitation assay, that
+NS4A,EIF2AK2            {PSMB9}=>{VAPB}                 NS3 and NS5B were coimmunoprecipitated with DDX3X
+NS5A,HOXD8            {HOXD8}=>{EIF2AK2}                and IKK in cells transfected with full length of HCV RNA.
+ NS5A,NR4A1           {NR4A1}=>{EIF2AK2}                This supports the existence of the WARL-predicted
+ NS5A,SETD2           {EIF2AK2}=>{HOXD8}                interactions of DDX3X with NS3 and NS5B. Also, the
+ NS5B,CALR            {EIF2AK2}=>{NR4A1}                WARL method predicted that NR4A1 interacts with NS3. It
+ NS5B,CANX            {EIF2AK2}=>{SETD2}                has been shown in [24] that knocking down of NR4A1
+ NS5B,CANX         {NR4A1,SETD2}=>{CALR}                expression decreases the expression of NS3 in Huh cell lines.
+ NS5B,CD209             {NR4A1}=>{CANX}                 Likewise, the proposed method predicted the interaction of
+NS5B,CLEC4M             {SETD2}=>{CANX}                 CD209 with CORE and NS3 viral proteins. In [25], it was
+ NS5B,CREB3        {NR4A1,SETD2}=>{CD209}               shown that HCV core and NS3 proteins inhibited the
+ NS5B,CREB3      {NR4A1,SETD2}=>{CLEC4M}                expression of CD1a, CD1b and CD209 during monocyte
+NS5B,EIF2AK2      {HOXD8,NR4A1}=>{CREB3}                differentiation to dendritic cells, while increasing some
+NS5B,EIF2AK2          {UBQLN1}=>{CREB3}                 marker characteristics of macrophages and also PD-L1
+ NS5B,FBLN5      {HOXD8,SETD2}=>{EIF2AK2}               expression. The mechanism for this inhibition was associated
+ NS5B,FBLN5      {NR4A1,SETD2}=>{EIF2AK2}               with TLR2 signaling. While most WARL-predicted
+ NS5B,FBLN5       {HOXD8,NR4A1}=>{FBLN5}                interactions in this study do not have evidence in literature to
+ NS5B,FBLN5       {HOXD8,SETD2}=>{FBLN5}                date, the existence of these interactions may be plausible
+ NS5B,HSPA5            {HOXD8}=>{FBLN5}                 given the functional-based similarity that WARL method
+ NS5B,HSPA5       {NR4A1,SETD2}=>{FBLN5}                took into account. These new predictions may pave way to
+   NS5B,LTF       {NR4A1,SETD2}=>{HSPA5}                understand the molecular mechanisms of HCV pathogenesis
+   p7,HOXD8            {NR4A1}=>{HSPA5}                 and may lead to novel therapeutic target against HCV.
+   p7,HOXD8         {NR4A1,SETD2}=>{LTF}
+                       {CREB3}=>{HOXD8}                 3.4. Enrichment Analysis of the Predicted Interactions
+                      {UBQLN1}=>{HOXD8}
+                                                            In this section we discuss about the enrichment studies that
+                                                        were performed for the human proteins predicted to interact
+                                                        with HCV proteins in the predicted bipartite network. The
+                                                        overall results are given in the supplementary File S1 and
+                                                        summarized results are given in Tables 3, 4 and 5.
+
+                                                        3.4.1. Interaction with NS3
+
+                                                            NS3 is a non-structural HCV protein containing serine
+                                                        protease and RNA helicase. The protease inactivates cellular
+A Weighted Association Rule Mining Method for Predicting HCV-Human Protein Interactions                  Current Bioinformatics, 2018, Vol. 13, No. 1 79
+
+p7 NR4A1               HOXD8                                                                             MOBK1B TP53BP2             STAT1
+                                                                                         TRAF2                                                    VAPA
+
+              NS5A
+
+                                                                              FBXL2                                                                        SHARPIN
+                                                                                                                 NS3
+       SETD2           PTBP2
+                                                                                                                                                         VAPB
+                                      LTF                                                JAK1
+                                        NS5B                     FTH1                             DDX3X
+
+                               FBLN5                                                                                                TRADO
+                              HSPA5
+       E1                                                                                                                      TBP
+
+                                                                                                                 FMNL1
+
+                                                                       CD209
+
+CREB3         EIF2AK2
+
+                                      CALR                       CANX         CLEC4M
+
+                                                                                         CORE                           SLIT2
+
+                                                                                                                                    NS4A
+
+                                                                                                         TRIM27
+
+                                                                 NS2
+                                                                                                                                        DDX5
+
+                                                                                                                                                                                  E2
+
+Fig. (2). Bipartite network of predicted HCV-human protein interactions which involves 30 human proteins and 9 HCV proteins generated
+from HV and VH matrix. Human proteins are represented in circle and HCV proteins are represented in square.
+
+protein required for innate immunity whereas helicase is         diseases such as stomach cancer and tuberculosis. This is
+required for genome replication and virus assembly [26].         important since HCV infection through NS3 may indirectly
+From the WARL prediction rules, it was identified that NS3       cause stomach cancer.
+has a higher degree than other HCV protein and that 13
+human proteins are interacting with this protein. To identify    3.4.2. Interaction with NS5B
+the biological relationship between these 13 human proteins,
+we tested the enrichment analysis using DAVIDv6.7. To                HCV RNA needs NS5B protein for viral replication [26].
+remove the redundant terms, the identified GO terms with         Using WARL method, a set of 8 human proteins was found to be
+the P-value were processed using REVIGO. Table 3 shows           interacting with NS5B protein. Thus, NS5B is the second highest
+the significant, non redundant GO terms as well asKEGG           degree protein in the predicted interactions. Similar studies based
+pathway studies conducted for the human proteins that are        on GO, pathway and disease associations have been done for
+predicted to interact with NS3 of HCV protein with certain       NS5B and the results are shown in Table 4. From the table it is
+threshold value of p and dispensability. It can be shown in      noted thatmost of the human proteins were involved in
+table that the groups of human proteins that were predicted      theimmune system process and cellular localization.
+to interact with NS3 are related biologically and possess
+common biological activities. In particular a set of seven           When NS5B interacts with these human proteins, they are
+human proteins were found to be involved in the biological       made inactive and lead to viral spread throughout the body.
+process of cell death. The proteins involved in this process     Further, 87.5 percent proteins are involved in the component of
+may participate either as inducers or repressors of the          membrane and cytoplasm which is associated with membrane
+programmed cell death. When NS3 interacts with the above         organization process. Interestingly, NS5B is also a membrane-
+seven human proteins it affects the regular function of the      associated protein which obviously depends on these human
+human proteins and results in improper functioning of the        proteins for viral replication. Hence there is a high chance of
+immune system. Similarly another group of human proteins         interaction of NS5B with these human proteins. From pathway
+are found to participate in the intracellular and cytoplasm of   analysis it was found that out of eight human proteins, three of
+the cellular component terms. These proteins have a role in      them namely, CALR, CANX and HSPA5 were involved in
+internal organization of the cell structure. NS3 may interact    antigen processing and presentations suggesting that when
+with these human proteins for their genome assembly and          NS5B interacts with these human proteins, functioning of
+viral replication. Further, it makes them inactive and disrupts  natural killer cell mediated cytotoxicity fails.
+their normal activity for their own replication inside the host
+cells. Apart from gene ontology studies, pathway analysis        3.4.3. Interaction with NS2
+confirmed that some of the human proteins interacting with
+NS3 are involved in other pathways like RIG-I-like receptor          The other hub protein found in the predicted interaction
+signaling pathway, Adipocytokine signaling pathway,              is NS2, cysteine protease [26]. This protein is mainly
+pathways in cancer and pancreatic cancer. This result            involved in the processing of NS2-NS3 cleavage and also
+suggests that possible viral interaction to human proteins       has some role in virus assembly and release. The six human
+may lead to development of some cancer types. Similarly          proteins that were predicted to be interacting with NS2
+disease association studies were performed. These proteins       protein were found to share some common biological
+are likely to have more chance of being relevant for other       activity. The results are given in Table 5. The table shows
+                                                                 that three of these human proteins were located in the
+80 Current Bioinformatics, 2018, Vol. 13, No. 1                                                                       Indhumathy et al.
+
+Table 3. Significant and non redundant GO terms and KEGG pathway enrichment analysis of human proteins that are predicted
+              to interact with HCV protein NS3.
+
+GO-ID       Biological Process                   No. of Genes  Gene Symbols                 P Value < 0.002  Dispensability< 0.1
+
+GO:0008219          Cell death                          7        SHARPIN, STAT1, TBP, VAPB  6.34E-06                   0
+                                                                    TP53BP2, TRADD, TRAF2
+GO:0044419  Interspecies interaction                    4                                       0.00116                 0
+GO:0051704    between organisms                         4          DDX3X,STAT1,TBP,VAPB          0.0137                 0
+GO:0016265                                              7                                       6.60E-06             0.048
+GO:0019221  Multi-organism process                      3          DDX3X,STAT1,TBP,VAPB         0.00129              0.078
+                      Death                      No. of Genes    SHARPIN, STAT1, TBP, VAPB  P value < 0.002  Dispensability< 0.2
+   GO-ID                                               12                                       1.95E-04                0
+GO:0005737    Cytokine-mediated                                     TP53BP2, TRADD, TRAF2
+               signaling pathway                       12                                   0.01716                   0.183
+GO:0005622   Cellular Component                  No. of Genes          JAK1,STAT1,TRADD
+ KEGG-ID                                                                                              P Value < 0.1
+  hsa04622         Cytoplasm                            3                   Gene Symbols               0.00278088
+  hsa05200                                              3      SHARPIN,STAT1,TBP,TP53BP2,T            0.052328966
+                   Intracellular                               RADD,TRAF2,VAPB,FMNL1,FBX
+
+                Pathway-Based                                        L2,JAK1,VAPA,DDX3X
+              RIG-I-like receptor                              SHARPIN,STAT1,TBP,TP53BP2,T
+               signaling pathway                               RADD,TRAF2,VAPB,FMNL1,FBX
+              Pathways in cancer
+                                                                     L2,JAK1,VAPA,DDX3X
+                                                                            Gene Symbols
+
+                                                                     DDX3X,TRADD,TRAF2
+
+                                                                       JAK1,STAT1,TRAF2
+
+Table 4. Significant and non redundant GO terms and KEGG pathway enrichment analysis of human proteins that are predicted
+              to interact with HCV protein NS5B
+
+   GO-ID           Biological Process            No. of Genes          Gene Symbols         P Value < 0.02   Dispensability< 0.1
+GO:0030005                                              3                                        0.0051                 0
+            Cellular di-, tri-valent inorganic                       CALR,FTH1,LTF
+GO:0055066         cation homeostasis                   3                                       0.0056                  0
+GO:0002376                                              4            CALR,FTH1,LTF              0.0099                  0
+             di-, tri-valent inorganic cation    No. of Genes                               P value < 0.05   Dispensability< 0.1
+   GO-ID               homeostasis                      4       CALR,FTH1,LTF,CD209             0.0475                  0
+GO:0005576                                              7              Gene Symbols             0.0386                  0
+GO:0016020      Immune system process
+                  Cellular Component                           CALR,FBLN5,LTF,CD209
+                   Extracellular region                        CALR, FTH1, LTF, CANX,
+                                                                FBLN5, DDX3X, HSPA5
+                        Membrane                               CALR, FTH1, LTF, CANX,
+                                                                FBLN5, DDX3X, HSPA5
+GO:0005737         Cytoplasm                            7                                   0.0401                     0.089
+ KEGG-ID                                         No. of Genes          Gene Symbols
+  hsa04612      Pathway-Based                                                                         P Value < 0.002
+            Antigen processing and                      3        CANX, CALR, HSPA5
+                                                                                                             0.00154
+                  presentation
+
+component endoplasmic reticulum. From the Gene ontology        interacts with most cellular proteins and regulates the host
+consortium (GOC), it was found that NS2 is also located in     cellular functions such as apoptosis and signaling pathway.
+the same component. Hence there is a high chance of            Using WARL prediction, five human proteins were found to
+interaction of NS2 with these human proteins.                  interact with CORE. Similar enrichment analysis has been
+                                                               done and it has been found that all the 5 human proteins are
+3.4.4. Interaction with CORE                                   involved in the cellular component organization. As stated
+                                                               earlier, CORE protein has a role in capsid formation.For this
+    CORE is a structural protein which has a role in viral     process it needs to interact with cellular organization
+capsid formation in Hepatitis C virus [26]. It directly        proteins and WARL prediction method shows that all these
+A Weighted Association Rule Mining Method for Predicting HCV-Human Protein Interactions  Current Bioinformatics, 2018, Vol. 13, No. 1 81
+
+Table 5. Significant and non redundant GO terms and KEGG pathway enrichment analysis of human proteins that are predicted
+              to interact with HCV protein NS2.
+
+   GO-ID      Biological Process     No. of Genes         Gene Symbols                   P Value < 0.05  Dispensability< 0.02
+GO:0002376                                  3      CALR, CLEC4M, CD209                        0.0432                 0
+            Immune system process
+GO:0048002  Antigen processing and          3      CALR, CLEC4M, CD209                   3.78E-05                   0
+            presentation of peptide
+   GO-ID                             No. of Genes         Gene Symbols                   P value < 0.05  Dispensability< 0.3
+GO:0044425            antigen               5      CALR, CLEC4M, CD209,
+GO:0005783   Cellular component             3                                            0.0977                     0
+ KEGG-ID                                                 HSPA5, CANX
+                 Membrane part       No. of Genes   CALR, HSPA5, CANX                    0.03229                    0.279
+  hsa04612                                  3
+            Endoplasmic reticulum                         Gene Symbols                             P Value < 0.002
+                Pathway-based                       CANX, CALR, HSPA5
+                                                                                                         7.81E-04
+            Antigen processing and
+                   presentation
+
+five human proteins are related to cellular organization           4. DISCUSSION
+process. Hence there is a high chance of interaction of these
+five human proteins with CORE. Also four of these five                 In this study, the problem of predicting host-viral protein-
+human proteins are highly associated with component                protein interactions was addressed in the context of
+plasma membrane, which plays a role in structural                  association rule mining. Following a methodology described
+formation.Obviously CORE protein utilizes these protein            in [16], the data was modeled as bipartite graphs and the
+functions for its viral capsid formation. Interestingly these      BiMaxbiclustering algorithm was used to find closed item
+proteins are also associated with apoptosis pathway which          sets from which association rules were generated. Due to
+clearly states that there is a high chance of interacting with     problems of data sparseness and skewness of the vertex
+CORE protein since CORE protein regulates the apoptosis            degree distribution of the bipartite graphs, the identified
+pathway.                                                           closed itemsets in this study suffered low support values and
+                                                                   high set cardinalities. That meant low confidence scores and
+3.4.5. Interaction with NS5A                                       limited applicability of rules. Because of that many items in
+                                                                   test transactions had to be matched against antecedent sets of
+    NS5A is a non-structural protein, a component of a             the rules. To handle this problem, a new method was
+replication which is involved in RNA binding [26]. From            proposed to expand the closed itemsets found by generating
+GOC, it is known that this protein has a role in apoptotic         subsets of closed itemsets that are of higher frequency (and
+process, interfere in host intracellular interferon activity and   hence higher in support and confidence values). These
+regulation of viral transcription. Four human proteins are         subsets of closed itemsets were used in generating a set of
+found to interact with this viral protein. From the GO study       association rules. The generated rules were evaluated in
+of the human proteins, three of them are involved in the           prediction of novel protein protein interactions. A new model
+regulation of transcription. This biological process is also       was proposed for weighing association rules in a way that
+shared by NS5A protein and hence there is a high chance of         benefited from existing knowledge bases such as Gene
+interaction between NS5A and the four human proteins.              Ontology. This model put some emphasis on the
+Further these four human proteins and NS5A are also found          characteristics of a transaction when applying an association
+in Cellular component nucleus, which strengthens our               rule. Thus it allowed for considering a context when
+prediction.                                                        applying an association rule. This method helped making
+                                                                   more informed predictions in a way that can be better than
+3.4.6. Interaction with Other HCV Proteins                         applying the association rules without any context. The
+                                                                   proposed method made it possible for predicting new
+    The other HCV proteins NS4A, E1, E2 and p7 have a              interactions within the dataset.
+small degree in the predicted network. NS4A is the
+association factor of NS3 HCV protein which cleaves the                Expanding closed itemsets by more frequent (and
+HCV proteins. DDX5 and FMNL1 are found to interact with            smaller) subsets came in response to the data sparseness
+NS4A. The envelop proteins E1 and E2 are involved in virus         problem posed by the dataset subject of the study. Skew
+attachment to host cell and fuse with the host membrane. The       degree distributions present a common property of complex
+human proteins EIF2Ak2 and CREB3 interact with E1                  networks, where the node degree distribution can be
+protein in our prediction, whereas DDX5 human protein              described by power-law. The method proposed in this study
+alone interacts with E2 protein. These human proteins have a       can be applied in other contexts where bipartite graph suffers
+role in cell proliferation. If the envelop protein interacts with  this data sparseness and degree skewness phenomenon.
+these proteins then it initiates the virus to multiply within the
+host cell. Viral protein p7 finds to interact with NR4A1               A key component of the method proposed in this study is
+human protein in the predicted network.                            the identification of characteristic molecular features (as
+                                                                   represented by GO molecular function annotations) of
+                                                                   transactions that are associated with antecedents sets {A} of
+82 Current Bioinformatics, 2018, Vol. 13, No. 1                                                                                          Indhumathy et al.
+
+all rules. Using molecular function annotations, the model         applied to a protein through prior knowledge represented in
+was aimed to identify what is common among protein sets            Gene Ontology. The findings were evaluated through a
+that support a given association rule. The proposed method         survey and few predicted interactions were mentioned in
+relied on the molecular ingredient that is essential to exist for  recent research publications. Enrichment analyses also have
+a protein representing a new transaction to interact with the      been performed for validation purpose. The method has the
+protein identified by the consequent set.                          potential to be applied in other areas which include drug-
+                                                                   protein interactions and gene-disease associations.
+    Our method proposed a solution to a problem of a
+previous method in [16]. That problem was that only new            CONSENT FOR PUBLICATION
+interactions involving human proteins that are present in the          Not applicable.
+dataset could be predicted. Our new model for predicting
+new protein-protein interaction overcomes this limitation and      CONFLICT OF INTEREST
+the method can be applied to proteins transactions outside
+the database as long as the human proteins have enough                 The authors declare no conflict of interest, financial or
+highly probable features (GO annotations from the                  otherwise.
+knowledge base) according to P(M(T)|A) model proposed in
+the methods section. Thus, our method has a more                   ACKNOWLEDGEMENTS
+generalization capability by being able to handle future               Declared None.
+transactions that were not observed during probability
+estimation. While the proposed model in this study relied on       APPENDIX A
+GO annotations of proteinstransactions, it can be shown that
+other features or combination of features can be used as well.     Association Rule Mining in Protein-Protein Interaction
+The key is how P(M(T)|A) can be modeled. For instance,             Datasets
+P(M(T)|A) can be represented by a combination of features.
+
+P(T | A) | P(M1(T ) , M 2 (T ) M m (T ) | A)
+
+m                                                (5)
+
+ wi P(Mi (T ) | A)                                                     Let I {i1,i2 ,...,in} be a set whose elements are called
+
+i1                                                                 items. Let D = {t1, t2,.tm}be another set whose elements are
+                                                                   called transaction and each transaction tkis a subset of I. In
+where, wi represents weight of a feature dimension.                the context of human-viral protein interaction databases, a
+                                                                   transaction database can be defined in a way where viral
+    Thus the proposed method has predicted new Viral-              proteins represent the itemsetI, and human proteins represent
+Human protein interactions. A number of these new                  the transactions that include a selection of members of set I.
+interactions were supported by evidence from recent research       A protein-protein interaction database can be defined as
+publications in this domain. Further enrichment studies such       shown in the example transaction Table A1.
+as Gene ontology-based analysis, pathway-based analysis
+and disease association based analysis were performed for          Table A1.  A hypothetical example of transaction databases
+validation purpose. This study reveals that most of the                       representing human-viral protein interactions.
+human proteins predicted to interact with the HCV protein                     Columns represent viral proteins (V) and rows
+share common biological activities like cell death, immune                    represent human proteins (H) interacting with viral
+system process and initiation of viral infection. Further, the                proteins. A value of 1 indicates interaction, 0
+location of predicted human proteins and viral proteins are                   indicates no interaction between respective H and V
+also common in some cases. Furthermore some human                             proteins.
+proteins that are predicted to interact with HCV proteins are
+related with pathwaysof some type of cancer and suggest that       Transactions (Human V1 V2 V3 V4
+HCV infection may indirectly cause cancer and other related                Proteins)
+diseases. Although these studies give some biological
+information of the predicted interaction, still more detailed                 H1  1         1  0  0
+study is needed. Further experimental studies are needed in
+this direction to confirm the validity of these predictions for               H2  1         0  1  0
+future development.
+                                                                              H3  0         0  0  1
+
+                                                                              H4  1         0  1  0
+
+CONCLUSION                                                                    H5  1         1  1  1
+
+    In this paper, we presented a new association rule mining          As shown in Table A1, each row represents a human
+method for sparse datasets about viral-human protein               protein. The itemset is defined as I = {V1, V2, V3, V4} and the
+interactions. The method addressed data sparseness issue           transaction set T = {H1, H2, H3, H4, H5}, where
+through using knowledge base to increase the generalization        H1 {V1,V2}, H2 {V1,V3}, H3 {V4}, H4 {V1,V3} and
+capability of the extracted rules. In this study, Gene             H5 {V1,V2 ,V3,V4}.
+Ontology molecular function annotations were used in a
+mathematical model for weighing rules. The new method              Now, an association rule A C consists of two sets:
+allowed for extracting low-support rules from the database
+and then increasing confidence score of the rule when
+A Weighted Association Rule Mining Method for Predicting HCV-Human Protein Interactions  Current Bioinformatics, 2018, Vol. 13, No. 1 83
+
+1. An antecedent itemsetA that states a pre-condition to             the assumption that C and T are conditionally independent on
+        apply the rule.                                              A, this probability can be factored as follows:
+
+2. A consequent itemset C that are likely to be observed             P(C,T | A) v P(C | A) P(T | A)              (B1)
+        once set A is observed.
+                                                                         The probability value P(C|A) can be obtained readily
+    An association rule has a numeric value called                   from the confidence score of an association rule of the form
+confidence that reflects the degree to which the data suggest        AC as described in step one of the method. The value P
+that rule. The two parts of the association rule have also a         (T|A) is the probability of observing a transaction T given a
+numeric value called support. The support (A) is the                 set of items A. The exact identity of sets T and A is
+percentage of rows in the dataset that contains the items of A.      application specific. In this study, we define a transaction T
+                                                                     as a set of human proteins and the item set A as a set of viral
+    For example, as shown in Table A1, we have the frequent          proteins. The item sets T and A were obtained from each of
+item set {V1, V3} with support = 3/5 = 0.6 (e.g. V1 and V3           the biclusters extracted from HV and VH matrices
+were observed in three transactions (H2, H4, H5)).                   representing human-viral and viral human interactions
+                                                                     respectively. The itemset T represented the rows of the
+The confidence of the rule R can be computed as:                     matrix bicluster and A represented the columns of the matrix
+                                                                     bicluster. The probability P (T|A) does not represent a
+    Conf(R) = Support (AC)/Support (A)                               meaningful quantity by itself if T is just a transaction
+                                                                     identifier. A more interesting probability model would be a
+    Support (AC) is the percentage of rows in the dataset            one that represents how much the meta data of a transaction
+that contain both set A and set C. The value of Conf(R)              T depends on an item set A. Let M(T) be a function that
+ranges from 0 to 1.                                                  retrieves (or synthesizes) meta data about a transaction T.
+
+Back to the above example transaction table, the frequent            M (T ) t1 ,t2 , tn                          (B2)
+
+item set {V1, V3} can be used to define an association rule              The M(T) function returns a set of tags or features
+                                                                     associated with a transaction T. In this study, a transaction T
+{V1}  {V3}. The confidence of this rule would be Support             can be a set of items (e.g. human proteins), and M(T) was
+                                                                     defined to return the set of gene ontology annotations t1, t2,.
+({V1, V3})/Support ({V1}) = 0.6 /0.8 = 0.75.                         tn.Hence, P (M (T)|A) is used instead of P(T|A) to evaluate P(C,
+                                                                     T | A). In this model, P (M (T)|A) represents the likelihood of
+    The basic step of association rule mining is to extract the two  observing a set of features of a future transaction given a set of
+sets A and C and calculate their support and confidence score of     items A. Therefore, in this model, a characteristic of a
+rule R. Itemset extraction can be done in different ways. One        transaction is considered in the process of applying association
+straightforward method is the pattern growth method that starts      rules to predict co-occurrence of T and C.
+with a single-item and then keeps expending the set with new
+items, provided that the frequency of the newly formed set is        Then, P (T|A) can be rewritten as:
+greater that a support parameter S. The algorithm stops when no
+itemset can be expanded. A recent method, BiMax, was                 P(T | A) | P(M (T )| A) P(t 1,t2 , tn | A)  (B3)
+proposed to extract itemsets using biclustering. BiMax takes a
+dataset represented as binary matrix XY (a value of 1 means              Assuming transaction meta data are conditionally
+item in column Y appears within a row X) and outputs a set of        independent on item set A, the above equation can be written
+biclusters (i.e. sub-matrices).                                      as:
+
+    The BiMax method is similar to the pattern growth in one                                                                                                      n
+way: The number of rows in the matrix bicluster actually
+represents the support value of the itemset that is the              P(T | A) | P(M (T )| A) P(t 1,t2 , tn | A)  P(ti | A) (B4)
+elements of the columns of the matrix bicluster. This way,
+BiMax can provide the most frequent itemset of the dataset                                                                                                      i1
+and it would be easier to generate rule R=AC, where A and
+C are generated from column items in bicluster matrices.                 The probability P(ti|A) was computed by counting how
+After generating the biclusters, output of BiMax was then            many times a tag t (gene ontology annotation)co-occurred
+post-processed to extract frequent item sets and generate the        with a particular set of viral proteins A across the dataset,
+setsA and C to create association rules. The number of rows          and then the counts were normalized to produce a probability
+of a bicluster readily represents the support value (after being     model).
+normalized by dividing by the total number of rows in the
+original matrix).                                                        Using the last equation, subsequently,P(C,T|A) = P(C|A)
+                                                                     * P(T|A) can be stated as:
+APPENDIX B
+                                                                                                                                                                                     n
+A Mathematical Model for Weighing Association Rules
+                                                                     P(C, M (T ) | A) v P(C | A) P(M (T) | A) P(C | A) P(ti | A) (B5)
+    Let P(C, T | A) represent the probability of observing an
+item set C together with a transaction T, given that another                                                                                                                        i1
+set of items A is observed. Using Bayes' rule and based on
+                                                                         In an association rule mining context, we are including
+                                                                     meta information about transactions to weigh the rule. New
+                                                                     transactions that contain too few characteristic features that
+84 Current Bioinformatics, 2018, Vol. 13, No. 1                                                                                                        Indhumathy et al.
+
+were observed in a history of transactions are not expected to                             mining. Third International Conference on Emerging Applications
+contain that item set.                                                                     of Information Technology; 2012 Dec-Nov 30-1; Kolkata 2012; pp
+                                                                                           28-31.
+                                                        n                        [9] Browne F, Zheng H, Wang H, Azuaje F. From experimental
+                                                                                           approaches to computational techniques: a review on the prediction
+  The probability value  P(ti | A) poses a problem when                                    of protein-protein interactions. Adv Artif Intel 2010; 2010: 7.
+                                                                                 [10] Kwofie SK, Schaefer U, Sundararajan VS, Bajic VB, Christoffels
+                                                      i1                                   A. HCVpro: hepatitis C virus protein interaction database. Infect
+                                                                                           Genet Evol 2011; 11(8): 1971-7.
+a large set of features are observed (synthesized) for a given                   [11] Harris MA, Clark J, Ireland A, et al. The Gene Ontology (GO)
+transaction. This score value would be higher for                                          database and informatics resource. Nucleic Acids Res 2004; 32:
+transactions with fewer features and lower for transactions                                D258-D61.
+with numerous features. This is due to arithmetic                                [12] Becquet C, Blachon S, Jeudy B, Boulicaut JF, Gandrillon O.
+multiplication operation that involves small fraction values                               Strong-association-rule mining for large-scale gene-expression data
+such as those of probability. To compensate for this                                       analysis: a case study on human SAGE data. Genome Biol 2002;
+deficiency, a penalty factor was introduced in the                                         3(12): RESEARCH0067. Epub 2002 Nov 21.
+calculation. Assuming that out of n-features that are in                         [13] Creighton C, Hanash S. Mining gene expression databases for
+association with a set A, a new transaction T1 was found to                                association rules. Bioinformatics 2003; 19(1): 79-86.
+possess m features only, where m < n. In that case, the                          [14] Yoo I, Alafaireet P, Marinov M, et al. Data mining in healthcare
+probability value is multiplied by a penalty factor. This                                  and biomedicine: a survey of the literature. J Med Syst 2012; 36(4):
+penalty factor is the probability of the missing feature (a                                2431-48.
+constant value, like H = 0.001) raised to the power of n-m. If                   [15] Tao F, Murtagh F, Farid M. Weighted association rule mining
+n=m then the exponent would be zero and hence no penalty                                   using weighted support and significance framework. Proceedings
+incurred. Finally, the overall model is expressed as:                                      of the ninth ACM SIGKDD international conference on
+                                                                                           Knowledge discovery and data mining; 2003 Aug 24-27;
+P(C, M (T ) | A)  P(C | A)  P(M (T ) | A)                          n       (B6)            Washington: pp. 661-6.
+                                                                                 [16] Mukhopadhyay A, Maulik U, Bandyopadhyay S. A novel
+                                           P(C | A)  P(ti | A)                             biclustering approach to association rule mining for predicting
+                                                                                           HIV-1-human protein interactions PLoS One 2012; 7(4): e32289.
+                                                                  i1             [17] Pasquier N, Bastide Y, Taouil R, Lakhal L. Discovering frequent
+                                                                                           closed itemsets for association rules. Lecture Notes in Computer
+                                           P(C | A)  P(t | A) (H )n | f |                  Science Springer. 7th International Conference on Database Theory;
+                                                                t f                        1999 Jan 10-12; Jersualem, Israel: pp. 398-416.
+                                                                                 [18] Zaki MJ, Hsiao CJ. Efficient algorithms for mining closed itemsets
+    Where n is the maximum number of features that are                                     and their lattice structure. IEEE Trans Knowl Data Eng 2005;
+observed in a given transaction.                                                           17(4): 462-78.
+                                                                                 [19] Preli A, Bleuler S, Zimmermann P, et al. A systematic comparison
+REFERENCES                                                                                 and evaluation of biclustering methods for gene expression data.
+                                                                                           Bioinformatics 2006; 22(9): 1122-9.
+[1] Obaid A, Ahmad J, Naz A, et al. Modeling and analysis of innate              [20] Huang DW, Sherman BT, Lempicki RA. Bioinformatics
+          immune responses induced by the host cells against hepatitis C                   enrichment tools: paths toward the comprehensive functional
+          virus infection. Integr Biol 2015; 7(5): 544-59.                                 analysis of large gene lists. Nucleic Acids Res 2009; 37(1): 1-13.
+                                                                                 [21] Huang DW, Sherman BT, Lempicki RA. Systematic and
+[2] Bréchot C. Hepatitis C virus. Dig Dis Sci 1996; 41(12): 6S-21S.                        integrative analysis of large gene lists using DAVID bioinformatics
+[3] Dolan PT, Zhang C, Khadka S, et al. Identification and                                 resources. Nat Protoc 2009; 4(1): 44-57.
+                                                                                 [22] Supek F, Bosnjak M, Skunca N, Smuc T. REVIGO summarizes
+          comparative analysis of hepatitis C virus-host cell protein                      and visualizes long lists of gene ontology terms. PloS One 2011;
+          interactions. Mol Biosyst 2013; 9(12): 3199-209.                                 6(7): e21800.
+[4] Rao VS, Srinivas K, Sujini G, Kumar G. Protein-protein interaction           [23] Pène V, Li Q, Sodroski C, Hsu CS, Liang TJ. Dynamic interaction
+          detection: methods and analysis. Int J Proteomics 2014; 2014:                    of stress granules, DDX3X, and IKK- mediates multiple functions
+          147648.                                                                          in hepatitis C virus infection. J Virol 2015; 89(10): 5462-77.
+[5] Iacucci E, De Souza SX, Moreau Y. Computational Approaches to                [24] Zhu W, Pei R, Jin R, et al. Nuclear receptor 4 group A member 1
+          Elucidating Transient Protein-Protein Interactions, Predicting                   determines hepatitis C virus entry efficiency through the regulation
+          Receptor-Ligand Pairings. Intech Open Access Publisher 2012; 13:                 of cellular receptor and apolipoprotein E expression. J Gen Virol
+          pp. 259-72.                                                                      2014; 95(7): 1510-21.
+[6] Mukhopadhyay A, Maulik U, Bandyopadhyay S, Eils R. Mining                    [25] Tu Z, Hamalainen-Laanaya HK, Nishitani C, et al. HCV core and
+          association rules from HIV-human protein interactions.                           NS3 proteins manipulate human blood-derived dendritic cell
+          International conference on Systems in Medicine and Biology;                     development and promote Th 17 differeniation. Int Immunol 2011:
+          2010 Dec 16-18; Kharagpur 2010; pp 344-8.                                        1-10.
+[7] Mukhopadhyay A, Ray S, Maulik U. Incorporating the type and                  [26] Moradpour D, Penin F. Hepatitis C virus proteins: from structure to
+          direction information in predicting novel regulatory interactions                function. Curr Top Microbiol Immunol 2013: 113-42.
+          between HIV-1 and human proteins using a biclustering approach.
+          BMC Bioinformatics 2014; 15: 26.
+[8] Ray S, Mukhopadhyay A, Maulik U. Predicting annotated HIV-1-
+          Human PPIs using a biclustering approach to association rule
+
