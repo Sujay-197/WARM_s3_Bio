@@ -14,11 +14,36 @@ steps are explained inline in code/notebooks, not assumed knowledge.
 
 ## Dataset
 
-- Source: HCVpro database export (manually curated HCV-human PPI database), TSV/CSV with
-  HCV protein ID and human protein ID/UniProt ID columns. Provided by the user.
-- Raw: 11 HCV proteins, 455 human proteins, 549 interactions → 524 after de-duplication.
-- GO molecular function annotations fetched per protein via UniProt REST API
-  (`https://rest.uniprot.org/uniprotkb/{id}`), cached to disk.
+**Original source (paper):**
+- Source: HCVpro (Kwofie et al. 2011) — manually curated, aggregating literature +
+  VirusMint + VirHostNet + BIND.
+- Format: tab-separated text (TSV); the original export also carried GO/pathway/OMIM
+  annotation columns alongside the interactions themselves.
+- Raw: 11 HCV proteins, 455 human proteins, 549 interactions.
+- After dedup: 524 interactions, 466 total nodes → very sparse bipartite graph.
+- Annotation layer: GO molecular function terms per protein, used only for rule
+  *weighting* (Section 2.3.2/Appendix B) — not treated as raw mining features.
+
+**Actual source used (this implementation):** both HCVpro mirrors
+(`apps.sanbi.ac.za`, `cbrc.kaust.edu.sa`) are down as of 2026-08-16 — confirmed via DNS
+failure and repeated HTTP 503/504s — and no Wayback Machine crawl ever captured the
+dynamic download endpoint, only the static UI shell. Substituted with
+**VirHostNet-v3.0321** (the current live descendant of one of HCVpro's own source
+databases), pulled from its NDEx export (network UUID
+`9dd36e92-994e-11eb-9e72-0ac135e8bacf`) and filtered to the two genuine HCV reference
+strains present (Con1, JFH-1), with each strain's polyprotein cleavage sites mapped to
+the paper's 10 named proteins via UniProt Chain features. Saved as a plain 2-column CSV
+(`human_protein,viral_protein`) at `data/raw/virhostnet_hcv_human_interactions.csv` —
+simpler than the original TSV's embedded annotation columns, since GO annotations are
+fetched separately per protein via the UniProt REST API
+(`https://rest.uniprot.org/uniprotkb/{id}`, cached to disk) rather than relied on as
+pre-packaged columns.
+
+| | Paper (HCVpro, 2018) | This implementation (VirHostNet, 2026) |
+|---|---|---|
+| Interactions | 524 | 591 |
+| Human proteins | 455 | 527 |
+| Viral proteins | 11 | 10 (no F protein — a ribosomal-frameshift product, not a UniProt Chain feature) |
 
 ## Method (from the paper)
 
