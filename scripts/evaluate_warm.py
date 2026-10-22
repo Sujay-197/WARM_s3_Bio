@@ -11,6 +11,7 @@ import sys
 import tempfile
 
 import pandas as pd
+from xgboost import XGBClassifier
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from warl.pipeline import run_pipeline
@@ -72,11 +73,44 @@ def main():
         f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
         rows.append((f1, threshold, precision, recall))
     best = max(rows) if rows else (0.0, 0.0, 0.0, 0.0)
+
+    human_neighbors = {h: set(train.loc[train.human_protein == h, "viral_protein"]) for h in humans}
+    viral_neighbors = {v: set(train.loc[train.viral_protein == v, "human_protein"]) for v in virals}
+    def features(pair):
+        human, viral = pair
+        hset, vset = human_neighbors.get(human, set()), viral_neighbors.get(viral, set())
+        common = len(hset & {x for x in virals if human in viral_neighbors.get(x, set())})
+        union = len(hset | {x for x in virals if human in viral_neighbors.get(x, set())})
+        return [len(hset), len(vset), common, common / union if union else 0.0]
+
+    baseline_candidates = [pair for pair in candidates if pair not in set(negatives)]
+    baseline_negatives = rng.sample(baseline_candidates, min(len(baseline_candidates), len(train)))
+    train_pairs = list(zip(train.human_protein, train.viral_protein)) + baseline_negatives
+    train_labels = [1] * len(train) + [0] * len(baseline_negatives)
+    test_pairs = list(positives) + list(negatives)
+    xgb = XGBClassifier(n_estimators=100, max_depth=3, learning_rate=0.05, subsample=0.8,
+                        colsample_bytree=1.0, random_state=42, eval_metric="logloss")
+    xgb.fit([features(pair) for pair in train_pairs], train_labels)
+    xgb_scores = xgb.predict_proba([features(pair) for pair in test_pairs])[:, 1].tolist()
+    xgb_rows = []
+    for threshold in sorted(set(xgb_scores), reverse=True):
+        predicted = [score >= threshold for score in xgb_scores]
+        tp = sum(y and p for y, p in zip(labels, predicted))
+        fp = sum((not y) and p for y, p in zip(labels, predicted))
+        fn = sum(y and not p for y, p in zip(labels, predicted))
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        xgb_rows.append((f1, threshold, precision, recall))
+    xgb_best = max(xgb_rows)
     result = {
         "seed": 42, "train_edges": len(train), "test_positive_edges": len(positives),
         "sampled_negative_edges": len(negatives), "precision": best[2], "recall": best[3],
         "f1": best[0], "pr_auc": pr_auc(labels, scores), "threshold": best[1],
         "note": "Negatives are unobserved pairs sampled for evaluation and are not confirmed biological negatives.",
+        "xgboost_precision": xgb_best[2], "xgboost_recall": xgb_best[3],
+        "xgboost_f1": xgb_best[0], "xgboost_pr_auc": pr_auc(labels, xgb_scores),
+        "xgboost_threshold": xgb_best[1],
     }
     print(pd.Series(result).to_json(indent=2))
 

@@ -44,7 +44,7 @@ Run the held-out evaluation with:
 .\.venv\Scripts\python.exe scripts\evaluate_warm.py
 ```
 
-The evaluator holds out known edges by HCV protein, samples the same number of unobserved pairs as provisional negatives, and reports precision, recall, F1, and PR-AUC. Unobserved pairs are not treated as confirmed biological negatives. An XGBoost baseline is not included because it has not been implemented or evaluated in this repository.
+The evaluator holds out known edges by HCV protein, samples the same number of unobserved pairs as provisional negatives, and reports precision, recall, F1, and PR-AUC for both WARM and an XGBoost graph-feature baseline. Unobserved pairs are not treated as confirmed biological negatives.
 
 ## Report
 
