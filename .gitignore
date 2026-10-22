@@ -6,4 +6,6 @@ venv/
 .pytest_cache/
 data/cache/
 data/processed/
+tmp/
+*.log
 *.egg-info/
