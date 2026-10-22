@@ -36,6 +36,16 @@ py -3 -m venv .venv
 
 UniProt responses are cached under `data/cache/`, which is intentionally ignored by Git. The current generated prediction output is stored in `data/predictions.csv`.
 
+## Leakage-aware evaluation
+
+Run the held-out evaluation with:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\evaluate_warm.py
+```
+
+The evaluator holds out known edges by HCV protein, samples the same number of unobserved pairs as provisional negatives, and reports precision, recall, F1, and PR-AUC. Unobserved pairs are not treated as confirmed biological negatives. An XGBoost baseline is not included because it has not been implemented or evaluated in this repository.
+
 ## Report
 
 The generated project report is available at `output/pdf/WARL_project_report.pdf`.
