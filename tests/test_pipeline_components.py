@@ -31,3 +31,11 @@ def test_go_weighting_scores_candidate_with_penalty():
     assert list(scored["transaction"]) == ["H2"]
     assert scored.iloc[0]["unweighted_confidence"] == 0.5
     assert scored.iloc[0]["weighted_confidence"] == 0.5
+
+
+def test_go_weighting_penalizes_candidate_without_annotations():
+    matrix = _matrix()
+    rule = Rule(frozenset({"V1"}), frozenset({"V2"}), 1, 0.5)
+    scored = score_rule(matrix, rule, {"H1": ["binding"], "H2": [], "H3": []})
+    assert scored.iloc[0]["unweighted_confidence"] == 0.5
+    assert scored.iloc[0]["weighted_confidence"] < 0.5

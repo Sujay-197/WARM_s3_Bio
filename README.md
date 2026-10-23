@@ -96,11 +96,11 @@ Output file: `data/predictions.csv`
 
 | Check | Result |
 | --- | ---: |
-| Prediction rows | 1,862 |
-| Unique `(human, viral)` pairs | 1,862 |
+| Prediction rows | 69 |
+| Unique `(human, viral)` pairs | 69 |
 | Duplicate pairs | 0 |
-| HV-derived predictions | 1,836 |
-| VH-derived predictions | 26 |
+| HV-derived predictions | 1 |
+| VH-derived predictions | 68 |
 | Overlap with the 591 input pairs | 0 |
 
 All 1,900 predictions are novel **relative to the input CSV**. This does not mean that every pair is unknown in every external database or experimentally unverified.

@@ -38,15 +38,17 @@ def score_rule(
             terms = set(annotations.get(row, []))
         else:
             terms = set(term for item in rule.consequent for term in annotations.get(item, []))
+        training_term_set = set(training_terms)
         probabilities = [
             training_terms[term] / training_count
             for term in terms
-            if training_count and training_terms[term]
+            if training_count and term in training_term_set and training_terms[term]
         ]
         score = rule.confidence
         for probability in probabilities:
             score *= probability
-        score *= epsilon ** max(0, len(terms) - len(probabilities))
+        missing_terms = max(0, len(training_term_set) - len(probabilities))
+        score *= epsilon ** missing_terms
         records.append(
             {"transaction": row, "unweighted_confidence": rule.confidence,
              "weighted_confidence": score,
