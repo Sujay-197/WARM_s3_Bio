@@ -96,11 +96,11 @@ Output file: `data/predictions.csv`
 
 | Check | Result |
 | --- | ---: |
-| Prediction rows | 1,900 |
-| Unique `(human, viral)` pairs | 1,900 |
+| Prediction rows | 1,862 |
+| Unique `(human, viral)` pairs | 1,862 |
 | Duplicate pairs | 0 |
-| HV-derived predictions | 1,808 |
-| VH-derived predictions | 92 |
+| HV-derived predictions | 1,836 |
+| VH-derived predictions | 26 |
 | Overlap with the 591 input pairs | 0 |
 
 All 1,900 predictions are novel **relative to the input CSV**. This does not mean that every pair is unknown in every external database or experimentally unverified.
@@ -109,8 +109,8 @@ All 1,900 predictions are novel **relative to the input CSV**. This does not mea
 | --- | --- |
 | `human` | Candidate human protein identifier |
 | `viral` | Candidate HCV protein |
-| `score` | GO-weighted ranking score |
-| `confidence` | Association-rule confidence |
+| `weighted_confidence` | GO-weighted confidence used to rank the prediction |
+| `unweighted_confidence` | Raw association-rule confidence before GO weighting |
 | `direction` | Matrix direction that produced the prediction (`HV` or `VH`) |
 
 ## Installation
@@ -148,8 +148,8 @@ Inspect the top predictions in PowerShell:
 
 ```powershell
 Import-Csv data\predictions.csv |
-  Sort-Object {[double]$_.score} -Descending |
-  Select-Object -First 20 human,viral,score,confidence,direction |
+  Sort-Object {[double]$_.weighted_confidence} -Descending |
+  Select-Object -First 20 human,viral,weighted_confidence,unweighted_confidence,direction |
   Format-Table
 ```
 

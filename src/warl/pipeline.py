@@ -12,11 +12,11 @@ from .itemset_expansion import expand_itemsets
 from .rule_mining import generate_rules
 
 
-def _run_direction(matrix: pd.DataFrame, annotations: dict[str, list[str]], max_itemset_size: int):
+def _run_direction(matrix: pd.DataFrame, annotations: dict[str, list[str]], max_itemset_size: int, annotation_mode: str):
     clusters = bimax(matrix)
     itemsets = expand_itemsets(matrix, clusters, max_itemset_size)
     rules = generate_rules(matrix, itemsets)
-    return score_rules(matrix, rules, annotations)
+    return score_rules(matrix, rules, annotations, annotation_mode=annotation_mode)
 
 
 def run_pipeline(
@@ -45,15 +45,15 @@ def run_pipeline(
         cache._save()
     annotations = {label: cache._cache.get(label, []) for label in labels}
     predictions = []
-    for matrix, direction in ((hv, "HV"), (vh, "VH")):
-        scored = _run_direction(matrix, annotations, max_itemset_size)
+    for matrix, direction, annotation_mode in ((hv, "HV", "row"), (vh, "VH", "consequent")):
+        scored = _run_direction(matrix, annotations, max_itemset_size, annotation_mode)
         if scored.empty:
             continue
-        scored = scored[scored["score"] >= threshold].copy()
+        scored = scored[scored["weighted_confidence"] >= threshold].copy()
         scored["direction"] = direction
         predictions.append(scored)
     if not predictions:
-        return pd.DataFrame(columns=["human", "viral", "score", "confidence", "direction"])
+        return pd.DataFrame(columns=["human", "viral", "weighted_confidence", "unweighted_confidence", "direction"])
     result = pd.concat(predictions, ignore_index=True)
     result["human"] = result.apply(
         lambda row: row["transaction"] if row["direction"] == "HV" else row["consequent"].__iter__().__next__(), axis=1
@@ -61,4 +61,4 @@ def run_pipeline(
     result["viral"] = result.apply(
         lambda row: row["consequent"].__iter__().__next__() if row["direction"] == "HV" else row["transaction"], axis=1
     )
-    return result.sort_values("score", ascending=False).drop_duplicates(["human", "viral"])
+    return result.sort_values("weighted_confidence", ascending=False).drop_duplicates(["human", "viral"])

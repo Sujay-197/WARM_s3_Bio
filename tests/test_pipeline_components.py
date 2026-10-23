@@ -29,4 +29,5 @@ def test_go_weighting_scores_candidate_with_penalty():
     rule = Rule(frozenset({"V1"}), frozenset({"V2"}), 1, 0.5)
     scored = score_rule(matrix, rule, {"H1": ["binding"], "H2": ["binding"], "H3": ["other"]})
     assert list(scored["transaction"]) == ["H2"]
-    assert scored.iloc[0]["score"] == 0.5
+    assert scored.iloc[0]["unweighted_confidence"] == 0.5
+    assert scored.iloc[0]["weighted_confidence"] == 0.5

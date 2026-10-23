@@ -60,7 +60,7 @@ def main():
     candidates = [(h, v) for h in humans for v in virals if (h, v) not in known and (h, v) not in positives]
     negatives = rng.sample(candidates, min(len(candidates), len(positives)))
     labels = [1] * len(positives) + [0] * len(negatives)
-    score_map = {(r.human, r.viral): r.score for r in predictions.itertuples()}
+    score_map = {(r.human, r.viral): r.weighted_confidence for r in predictions.itertuples()}
     scores = [score_map.get(pair, 0.0) for pair in positives] + [score_map.get(pair, 0.0) for pair in negatives]
     rows = []
     for threshold in sorted(set(scores), reverse=True):
